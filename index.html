@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!--FontAwesome-->
+    <link href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- FormValidation CSS file -->
+
+    <link rel="stylesheet" href="css/custom.css">
+    <title>Brass Tacks Project/Partnership Generator</title>
+</head>
+
+<body ng-controller="ValidationCtrl as valid">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="enduser.html" class="nounderline">
+                  <div class="lead well">
+                    <h1>Brass Tacks Project/Partnership Generator</h1>
+                  </div>
+                </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-offset-1 col-md-10">
+                <!--10 question form-->
+                <form id="tenQsForm"name="myForm" class="form-horizontal"novalidate>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="usrname" class="col-sm-2 control-label">Your name:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="5" ng-maxlength="20">
+                                  <p ng-show="myForm.username.$error.minlength" class="help">Username is too short.</p>
+                                   <p ng-show="myForm.username.$error.maxlength" class="help">Username is too long.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="usremail" class="col-sm-2 control-label">Email:</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="email" placeholder="jane.doe@example.com" ng-model="user.email">
+                                <p ng-show="myForm.email.$invalid && !myForm.email.$pristine" class="help">Enter a valid email.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="usrtitle" class="col-sm-2 control-label">Title:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="title" id="usrtitle" placeholder="title"  ng-minlength="3" ng-maxlength="20" ng-model="user.title">
+                                 <p ng-show="myForm.title.$error.minlength" class="help">Title is too short.</p>
+                                  <p ng-show="myForm.title.$error.maxlength" class="help">Title is too long.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row acc-wizard">
+                        <div class="col-md-3">
+                            <span id="helpBlock" class="help-block"><em>Introduction:</em> Welcome to the first step in submitting a new project or partnership. You'll walk through ten questions that will 
+                            help you think through your project or partnership in a way that will produce a one page summary (<i>Referred to as a <b>Lean Canvas</b></i>). Your work will be saved as you 
+                            complete the questions and you can return to your form at any time.</span>
+                            <ol class="acc-wizard-sidebar" ng-repeat="btn in nameBtn">
+                                <li class="acc-wizard-todo"ng-click="valid.selectTab($index + 1)"><a href="#collapseOne">{{btn.name}}</
+                            </ol>
+                        </div>
+
+                        <div class="col-md-9"ng-repeat="tab in tabs" >
+                            <div class="panel-group display" id="accordion" role="tablist" aria-multiselectable="true">
+                                <!--q1-->
+                                 <div  class="panel panel-default form-group">
+                                    <div class="panel-heading" role="tab" id="headingTen">
+                                        <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="true" aria-controls="collapseTen" >
+                                           {{tab.heading}}</a>
+                                </h4>
+                                    </div>
+                                    <div ng-show='valid.isSelected($index +1)' id="collapseTen" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTen">
+                                        <div class="panel-body">
+                                            <p>{{tab.content}}</p>
+                                            <textarea class="form-control answer" name="q10" id="q10"></textarea>
+                                            <div class="acc-wizard-step">
+                                                <button ng-click="valid.procced($index+2)" class="btn btn-primary" type="reset">{{buttonLabel}}</button>
+                                                <button ng-click="valid.back($index)" class="btn btn-pre" type="reset">Go Back</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                  
+						    </div>
+						   </div>
+						  </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-10 col-sm-2">
+                            <div id="success">
+                                <button id="validateButton" type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="showresp"></div>
+                </form>
+                <!--end of the form-->
+            </div>
+        </div>
+    </div>
+                        
+      
+    <!--libs-->
+    <script src="libs/jquery-1.11.3.min.js"></script>
+    <script src="libs/angular.js"></script>
+    <script src="libs/angular-route.min.js"></script>
+    <script src="libs/angular-touch.min.js"></script>
+    <script src='libs/angular-animate.js'</script>
+    <script src="libs/bootstrap.js"></script>
+    <script src="libs/ui-bootstrap-tpls-1.2.1.min.js"></script>
+
+         <!--modules-->
+    <script src="models/mainAppModule.js"></script>
+
+    <!--controllers-->
+    <script src="controllers/ValidationCtrl.js"></script>
+</body>
+
+</html>
